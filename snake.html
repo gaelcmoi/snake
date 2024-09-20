@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='UTF-8'>
+    <script src=p5.min.js></script>
+    <script>
+        var slg = 20;
+        var s;
+        function snake()
+        {
+            this.x = 0;
+            this.y = 0;
+            this.speedx = 1;
+            this.speedy = 0;
+            this.tail = [];
+            this.total = 0;
+            this.update = function()
+            {
+                this.x = this.x + this.speedx*slg;
+                this.y = this.y + this.speedy*slg;
+                this.x = constrain(this.x,0,width-slg)
+                this.y = constrain(this.y,0,height-slg)
+
+                frameRate(10);
+                rect(this.x,this.y,slg,slg);
+            }
+            this.dir=function(x,y)
+            {
+                this.speedx = x;
+                this.speedy = y;
+            }
+        }
+        function setup()
+        {
+            createCanvas(400,400);
+            s = new snake();
+        }
+        function draw()
+        {
+            background(0);
+            s.update();
+        }
+        function keyPressed()
+        {
+            if (keyCode == UP_ARROW)
+            s.dir(0,-1)
+            {
+
+            }
+        }
+    </script>
+</head>
+<body>
+    <section>
+    Score : <span id="score"> 0 </span>
+    </section>
+</body>
+    </html>
