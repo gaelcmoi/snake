@@ -34,7 +34,7 @@
                 this.tail[this.total -1]=createVector(this.x, this.y);
                 fill(255,255,255);
                 for (var i = 0; i<this.tail.length -1;i++)
-                rec(this.tail[i].x,this.tail[i].y, slg,slg);
+                rect(this.tail[i].x,this.tail[i].y, slg,slg);
                 this.x = this.x + this.speedx*slg;
                 this.y = this.y + this.speedy*slg;
                 this.x = constrain(this.x,0,width-slg)
@@ -43,6 +43,18 @@
                 frameRate(10);
                 fill(0,255,0);
                 rect(this.x,this.y,slg,slg);
+            }
+            this.death = function()
+            {
+                for (var i = 0; i<this.tail.length -1;i++)
+                if(dist(this.x, this.y,this.tail[i].x,this.tail[i].y)<2)
+                {
+                    this.total = 0;
+                    this.tail = [];
+                    document.getElementById("score").
+                    innerHTML = this.total;
+
+                }
             }
             this.dir=function(x,y)
             {
@@ -57,8 +69,6 @@
                     this.total = this.total + 1;
                     document.getElementById("score").innerHTML = 
                     this.total;
-                }
-                {
                     return true;
                 } else 
                 {
@@ -80,6 +90,7 @@
             rect(food.x, food.y, slg,slg);
             if (s.eat())
             putFood();
+            s.death();
         }
         function keyPressed()
         {
@@ -98,6 +109,24 @@
             }
         }
     </script>
+    <style>
+        body
+        {
+            background-image: url("Snake-Game.jpg") ;
+            background-repeat: no-repeat;
+        }
+        #defaultCanvas0
+        {
+            padding-left: 30px;
+            padding-top: 5px;
+        }
+        #score
+        {
+            font-size: 25px;
+            color:#FFFFFF;
+            background-color: #000000;
+        }
+    </style>
 </head>
 <body>
     <section>
