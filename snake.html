@@ -6,6 +6,16 @@
     <script>
         var slg = 20;
         var s;
+        var food;
+        function putFood()
+        {
+            cols = int(width/slg);
+            rows = int(height/slg);
+            col = int(random(cols));
+            row = int(random(rows));
+            food = createVector (col,row);
+            food.mult(slg);
+        }
         function snake()
         {
             this.x = 0;
@@ -16,12 +26,22 @@
             this.total = 0;
             this.update = function()
             {
+                if(this.total == this.tail.length)
+                for (var i = 0; i<this.tail.length -1;i++)
+                {
+                    this.tail[i]= this.tail[i+1]
+                }
+                this.tail[this.total -1]=createVector(this.x, this.y);
+                fill(255,255,255);
+                for (var i = 0; i<this.tail.length -1;i++)
+                rec(this.tail[i].x,this.tail[i].y, slg,slg);
                 this.x = this.x + this.speedx*slg;
                 this.y = this.y + this.speedy*slg;
                 this.x = constrain(this.x,0,width-slg)
                 this.y = constrain(this.y,0,height-slg)
 
                 frameRate(10);
+                fill(0,255,0);
                 rect(this.x,this.y,slg,slg);
             }
             this.dir=function(x,y)
@@ -29,23 +49,52 @@
                 this.speedx = x;
                 this.speedy = y;
             }
+            this.eat = function()
+            {
+                d = dist(this.x, this.y, food.x, food.y)
+                if(d < 2)
+                {
+                    this.total = this.total + 1;
+                    document.getElementById("score").innerHTML = 
+                    this.total;
+                }
+                {
+                    return true;
+                } else 
+                {
+                    return false;
+                }
+            }
         }
         function setup()
         {
             createCanvas(400,400);
             s = new snake();
+            putFood();
         }
         function draw()
         {
             background(0);
             s.update();
+            fill(255,0,0);
+            rect(food.x, food.y, slg,slg);
+            if (s.eat())
+            putFood();
         }
         function keyPressed()
         {
             if (keyCode == UP_ARROW)
-            s.dir(0,-1)
             {
-
+               s.dir(0,-1);
+            } else if (keyCode == DOWN_ARROW)
+            {
+                s.dir(0,1);
+            } else if (keyCode == LEFT_ARROW)
+            {
+                s.dir(-1,0);
+            } else if (keyCode == RIGHT_ARROW)
+            {
+                s.dir(1,0);
             }
         }
     </script>
